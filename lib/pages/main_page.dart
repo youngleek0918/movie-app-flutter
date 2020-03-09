@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-final double SCALE_FACTOR = 0.8;
+final double SCALE_FACTOR = 0.9;
 final double VIEW_PORT_FACTOR = 0.7;
 
 class MyHomePage extends StatefulWidget {
@@ -74,25 +74,20 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             child: ChangeNotifierProvider.value(
               value: _page,
-              child: Transform(
-                transform: Matrix4.diagonal3Values(transScale, transScale, 1)
-                  ..setTranslationRaw(
-                    -1 * size.width * (SCALE_FACTOR - 1).abs()/1.5, 0, 0),
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: PageView.builder(
-                    controller: _pageController,
-                    itemBuilder: (context, index) {
-                      return Consumer<Page>(
-                        builder: (context, page, child){
-                          double scale = 
-                            1 + (SCALE_FACTOR - 1) * (page.value - index).abs();
-                          return Poster(scale: scale, optionStyle: null,);
-                        },
-                      );
-                    },
-                    itemCount: 5,
-                  ),
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemBuilder: (context, index) {
+                    return Consumer<Page>(
+                      builder: (context, page, child){
+                        double scale = 
+                          1 + (SCALE_FACTOR - 1) * (page.value - index).abs();
+                        return Poster(scale: scale, optionStyle: null,);
+                      },
+                    );
+                  },
+                  itemCount: 5,
                 ),
               ),
             ),       
@@ -119,6 +114,7 @@ class Poster extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.centerLeft,
       child: Center(
         child: Transform.scale(
           scale: scale,
